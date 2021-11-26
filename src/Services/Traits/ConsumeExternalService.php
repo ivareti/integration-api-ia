@@ -9,8 +9,7 @@ trait ConsumeExternalService
     public function headers(array $headers = [])
     {
         array_push($headers, [
-            'Accept' => 'application/json',
-            'Authorization' => $this->token
+            'Accept' => 'application/json'
         ]);
 
         return Http::withHeaders($headers);
@@ -22,6 +21,6 @@ trait ConsumeExternalService
         array $formParams = [],
         array $headers = []
     ) {
-        return $this->headers($headers)->$method($endPoint,  $formParams);
+        return $this->headers($headers)->withToken($this->token, "JWT")->$method($endPoint,  $formParams);
     }
 }
