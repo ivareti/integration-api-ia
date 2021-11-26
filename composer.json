@@ -1,0 +1,19 @@
+{
+    "name": "ivareti/integration-api-ia",
+    "description": "Package to Integration with IVARE Artificial Intelligence",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ivareti",
+            "email": "github@ivare.com.br"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Ivareti\\IntegrationApiIa\\": "src/"
+        }
+    }
+}
