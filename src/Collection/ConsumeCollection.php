@@ -9,10 +9,9 @@ class ConsumeCollection
 {
     use ConsumeExternalService;
 
-
-    private $username;
-    private $password;
-    private $token;
+    protected $username;
+    protected $password;
+    protected $token;
 
     public function __construct($username, $password)
     {
