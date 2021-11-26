@@ -14,10 +14,10 @@ class ConsumeCollection
     private $password;
     private $token;
 
-    public function __construct()
+    public function __construct($username, $password)
     {
-        $this->username = config('variables.ia.username');
-        $this->password = config('variables.ia.password');
+        $this->username = $username;
+        $this->password = $password;
         $this->token = $this->connect();
     }
 
