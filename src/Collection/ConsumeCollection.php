@@ -32,7 +32,7 @@ class ConsumeCollection
             'Accept' => 'application/json',
         );
 
-        $response = $this->request('post', config('variables.ia.url.auth'), $datas, $headers);
+        $response = $this->request('post', "https://api.ivare.com.br/v1/auth/login/", $datas, $headers);
         return $response->json()['token'];
     }
 
@@ -42,6 +42,6 @@ class ConsumeCollection
             'uuid' => $uuid
         );
 
-        return $this->request('post', config('variables.ia.url.auth'), $datas);
+        return $this->request('post', "https://api.ivare.com.br/v1/collections/", $datas);
     }
 }
