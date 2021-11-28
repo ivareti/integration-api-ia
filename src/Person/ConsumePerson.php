@@ -1,13 +1,12 @@
 <?php
 
-namespace Ivareti\IntegrationApiIa\Collection;
+namespace Ivareti\IntegrationApiIa\Person;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Ivareti\IntegrationApiIa\Services\Traits\ConsumeExternalService;
 
-class ConsumeCollection
+class ConsumePerson
 {
+
     use ConsumeExternalService;
 
     protected $username;
@@ -26,12 +25,9 @@ class ConsumeCollection
 
     private function connect() {
 
-        Log::info(config('integration-ia.username'));
-        Log::info(config('integration-ia.password'));
-
         $datas = array(
-            'username' => config('integration-ia.username'),
-            'password' => config('integration-ia.password'),
+            'username' => $this->username,
+            'password' => $this->password
         );
 
         $headers = array(
@@ -43,20 +39,22 @@ class ConsumeCollection
     }
 
     public function getAll() {
-        return $this->request('get', "https://api.ivare.com.br/v1/collections/");
+        return $this->request('get', "https://api.ivare.com.br/v1/persons/");
     }
 
     public function getByUuid($uuid) {
-        return $this->request('get', "https://api.ivare.com.br/v1/collections/{$uuid}/");
+        return $this->request('get', "https://api.ivare.com.br/v1/persons/{$uuid}/");
     }
 
-    public function create($collectionName, $uuid) {
+    public function create($collectionUuid, $personUuid, $vnAge = 0, $vnGender = 0) {
         $datas = array(
-            'cd_collection' => $collectionName,
-            'uuid' => $uuid
+            'collection_id' => $collectionUuid,
+            'vn_age' => $vnAge,
+            'vn_gender' => $vnGender,
+            'uuid' => $personUuid
         );
 
-        return $this->request('post', "https://api.ivare.com.br/v1/collections/", $datas);
+        return $this->request('post', "https://api.ivare.com.br/v1/persons/", $datas);
     }
 
     public function edit($newCollectionName, $uuid) {
@@ -64,12 +62,13 @@ class ConsumeCollection
             'cd_collection' => $newCollectionName
         );
 
-        return $this->request('put', "https://api.ivare.com.br/v1/collections/{$uuid}/", $datas);
+        return $this->request('put', "https://api.ivare.com.br/v1/persons/{$uuid}/", $datas);
     }
 
     public function delete($uuid) {
-        return $this->request('delete', "https://api.ivare.com.br/v1/collections/{$uuid}/");
+        return $this->request('delete', "https://api.ivare.com.br/v1/persons/{$uuid}/");
     }
+
 
 
 }

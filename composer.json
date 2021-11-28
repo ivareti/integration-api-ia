@@ -15,5 +15,12 @@
         "psr-4": {
             "Ivareti\\IntegrationApiIa\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ivareti\\IntegrationApiIa\\IntegrationApiIaServiceProvider"
+            ]
+        }
     }
 }
