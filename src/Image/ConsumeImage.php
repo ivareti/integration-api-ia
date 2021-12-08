@@ -1,12 +1,10 @@
 <?php
 
-namespace Ivareti\IntegrationApiIa\Collection;
+namespace Ivareti\IntegrationApiIa\Image;
 
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Ivareti\IntegrationApiIa\Services\Traits\ConsumeExternalService;
 
-class ConsumeCollection
+class ConsumeImage
 {
     use ConsumeExternalService;
 
@@ -38,33 +36,17 @@ class ConsumeCollection
         return $response->json()['token'];
     }
 
-    public function getAll() {
-        return $this->request('get', "collections/");
+    public function getById($imageId) {
+        return $this->request('get', "images/{$imageId}/");
     }
 
-    public function getById($collectionId) {
-        return $this->request('get', "collections/{$collectionId}/");
-    }
-
-    public function create($collectionName) {
+    public function create($personId, $image64) {
         $datas = array(
-            'cd_collection' => $collectionName
+            'person_id' => $personId,
+            'photo' => $image64
         );
 
-        return $this->request('post', "collections/", $datas);
+        return $this->request('post', "images/", $datas);
     }
-
-    public function edit($newCollectionName, $collectionId) {
-        $datas = array(
-            'cd_collection' => $newCollectionName
-        );
-
-        return $this->request('put', "collections/{$collectionId}/", $datas);
-    }
-
-    public function delete($collectionId) {
-        return $this->request('delete', "collections/{$collectionId}/");
-    }
-
 
 }

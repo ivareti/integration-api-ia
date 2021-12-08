@@ -14,12 +14,12 @@ class ConsumePerson
     protected $token;
 
     public function __construct(
-        $username,
-        $password
+        $username = null,
+        $password = null
     )
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->username = $username ?? config('integration-ia.username');
+        $this->password = $password ?? config('integration-ia.password');
         $this->token = $this->connect();
     }
 
@@ -34,39 +34,39 @@ class ConsumePerson
             'Accept' => 'application/json',
         );
 
-        $response = $this->request('post', "https://api.ivare.com.br/v1/auth/login/", $datas, $headers);
+        $response = $this->request('post', "auth/login/", $datas, $headers);
         return $response->json()['token'];
     }
 
     public function getAll() {
-        return $this->request('get', "https://api.ivare.com.br/v1/persons/");
+        return $this->request('get', "persons/");
     }
 
-    public function getByUuid($uuid) {
-        return $this->request('get', "https://api.ivare.com.br/v1/persons/{$uuid}/");
+    public function getById($personId) {
+        return $this->request('get', "persons/{$personId}/");
     }
 
-    public function create($collectionUuid, $personUuid, $vnAge = 0, $vnGender = 0) {
+    public function create($collectionId, $vnAge = 0, $vnGender = 0) {
         $datas = array(
-            'collection_id' => $collectionUuid,
+            'collection_id' => $collectionId,
             'vn_age' => $vnAge,
-            'vn_gender' => $vnGender,
-            'uuid' => $personUuid
+            'vn_gender' => $vnGender
         );
 
-        return $this->request('post', "https://api.ivare.com.br/v1/persons/", $datas);
+        return $this->request('post', "persons/", $datas);
     }
 
-    public function edit($newCollectionName, $uuid) {
+    public function edit($personId, $vnAge = 0, $vnGender = 0) {
         $datas = array(
-            'cd_collection' => $newCollectionName
+            'vn_age' => $vnAge,
+            'vn_gender' => $vnGender
         );
 
-        return $this->request('put', "https://api.ivare.com.br/v1/persons/{$uuid}/", $datas);
+        return $this->request('put', "persons/{$personId}/", $datas);
     }
 
-    public function delete($uuid) {
-        return $this->request('delete', "https://api.ivare.com.br/v1/persons/{$uuid}/");
+    public function delete($personId) {
+        return $this->request('delete', "persons/{$personId}/");
     }
 
 

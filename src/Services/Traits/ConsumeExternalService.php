@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Http;
 
 trait ConsumeExternalService
 {
+
+    private $baseUrl = "https://api.ivare.com.br/v1";
+
     public function headers(array $headers = [])
     {
         array_push($headers, [
@@ -21,6 +24,13 @@ trait ConsumeExternalService
         array $formParams = [],
         array $headers = []
     ) {
-        return $this->headers($headers)->withToken($this->token, "JWT")->$method($endPoint,  $formParams);
+
+        if(str_starts_with($endPoint, '/')) {
+            $endPoint = substr($endPoint, 1);
+        }
+
+        return $this->headers($headers)
+            ->withToken($this->token, "JWT")
+            ->$method("{$this->baseUrl}/{$endPoint}",  $formParams);
     }
 }
